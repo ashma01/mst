@@ -7,19 +7,18 @@ import java.lang.*;
 @Service
 public class PrimsMST {
 
-
     // Number of vertices in the graph
     private static final int V = 5;
 
     // A utility function to find the vertex with minimum
     // key value, from the set of vertices not yet included
     // in MST
-    int minKey(int key[], Boolean mstSet[]) {
+    int minKey(int[] key, Boolean[] mstSet) {
         // Initialize min value
         int min = Integer.MAX_VALUE, min_index = -1;
 
         for (int v = 0; v < V; v++)
-            if (mstSet[v] == false && key[v] < min) {
+            if (!mstSet[v] && key[v] < min) {
                 min = key[v];
                 min_index = v;
             }
@@ -29,7 +28,7 @@ public class PrimsMST {
 
     // A utility function to print the constructed MST
     // stored in parent[]
-    void printMST(int parent[], int graph[][]) {
+    void printMST(int[] parent, int[][] graph) {
         System.out.println("Edge \tWeight");
         int minCost = 0;
         for (int i = 1; i < V; i++) {
@@ -42,16 +41,16 @@ public class PrimsMST {
 
     // Function to construct and print MST for a graph
     // represented using adjacency matrix representation
-    void primMST(int graph[][]) {
+    void primMST(int[][] graph) {
         // Array to store constructed MST
-        int parent[] = new int[V];
+        int[] parent = new int[V];
 
         // Key values used to pick minimum weight edge in
         // cut
-        int key[] = new int[V];
+        int[] key = new int[V];
 
         // To represent set of vertices included in MST
-        Boolean mstSet[] = new Boolean[V];
+        Boolean[] mstSet = new Boolean[V];
 
         // Initialize all keys as INFINITE
         for (int i = 0; i < V; i++) {
@@ -88,7 +87,7 @@ public class PrimsMST {
                 // vertices not yet included in MST Update
                 // the key only if graph[u][v] is smaller
                 // than key[v]
-                if (graph[u][v] != 0 && mstSet[v] == false
+                if (graph[u][v] != 0 && !mstSet[v]
                         && graph[u][v] < key[v]) {
                     parent[v] = u;
                     key[v] = graph[u][v];
