@@ -1,6 +1,9 @@
 package com.software.testing.mst;
+import org.springframework.stereotype.Service;
+
 import java.util.*;
 
+@Service
 public class BoruvkasMST {
     // Boruvka's algorithm to find Minimum Spanning
 // Tree of a given connected, undirected and weighted graph
@@ -10,6 +13,10 @@ public class BoruvkasMST {
         private int V; // No. of vertices
         private List<List<Integer>> graph; // default dictionary to store graph
 
+        BoruvkasMST()
+        {
+
+        }
         BoruvkasMST(int vertices)
         {
             V = vertices;
