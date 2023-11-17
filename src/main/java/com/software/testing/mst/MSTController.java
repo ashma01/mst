@@ -17,10 +17,12 @@ public class MSTController {
 
     final
     KruskalMST kruskals;
+    BoruvkasMST boruvkas;
 
-    public MSTController(PrimsMST primMST, KruskalMST kruskals) {
+    public MSTController(PrimsMST primMST, KruskalMST kruskals, BoruvkasMST boruvkasMST) {
         this.prims = primMST;
         this.kruskals = kruskals;
+        this.boruvkas = boruvkasMST;
     }
 
 
@@ -58,4 +60,19 @@ public class MSTController {
         kruskals.kruskalAlgo(V, graphEdges);
         return "successfully ran kruskal";
     }
+
+    @GetMapping("/boruvkas")
+    public String getBoruvkas(@RequestParam(value = "name", defaultValue = "World") String name) {
+        int V = 4;
+        boruvkas = new BoruvkasMST(V);
+        boruvkas.addEdge(0, 1, 10);
+        boruvkas.addEdge(0, 2, 6);
+        boruvkas.addEdge(0, 3, 5);
+        boruvkas.addEdge(1, 3, 15);
+        boruvkas.addEdge(2, 3, 4);
+        boruvkas.boruvkaMST();
+        return "successfully ran Boruvkas";
+    }
+
+
 }
