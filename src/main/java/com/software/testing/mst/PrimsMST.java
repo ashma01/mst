@@ -1,101 +1,85 @@
 package com.software.testing.mst;
 
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.lang.*;
+import java.util.*;
 
 @Service
+@NoArgsConstructor(force = true)
 public class PrimsMST {
+    private final List<List<Edge>> adjList;
+    private final int[] minEdgeWeight;
+    private final int[] parent;
+    private final PriorityQueue<Vertex> minHeap;
+    private final int numVertices;
+    private final Set<Integer> inMST = new HashSet<>();
 
-    // Number of vertices in the graph
-    private static final int V = 5;
 
-    // A utility function to find the vertex with minimum
-    // key value, from the set of vertices not yet included
-    // in MST
-    int minKey(int[] key, Boolean[] mstSet) {
-        // Initialize min value
-        int min = Integer.MAX_VALUE, min_index = -1;
+    public PrimsMST(Integer numVertices) {
+        this.numVertices = numVertices;
+        this.adjList = new ArrayList<>(numVertices);
+        for (int i = 0; i < numVertices; i++) {
+            adjList.add(new ArrayList<>());
+        }
+        this.minEdgeWeight = new int[numVertices];
+        Arrays.fill(minEdgeWeight, Integer.MAX_VALUE);
+        this.parent = new int[numVertices];
+        Arrays.fill(parent, -1);
+        this.minHeap = new PriorityQueue<>(numVertices, Comparator.comparingInt(Vertex::getWeight));
+    }
 
-        for (int v = 0; v < V; v++)
-            if (!mstSet[v] && key[v] < min) {
-                min = key[v];
-                min_index = v;
+    public void addEdge(int src, int dest, int weight) {
+        adjList.get(src).add(new Edge(src, dest, weight));
+        adjList.get(dest).add(new Edge(dest, src, weight)); // For undirected graph
+    }
+
+
+    public void getMST() {
+        List<Edge> mst = new ArrayList<>();
+
+        minEdgeWeight[0] = 0;
+        minHeap.add(new Vertex(0, 0));
+
+        while (mst.size() < numVertices - 1 && !minHeap.isEmpty()) {
+            Vertex current = minHeap.poll();
+            if (current == null) {
+                break;
+            }
+            int u = current.id;
+            if (!inMST.add(u)) {
+                continue;
             }
 
-        return min_index;
-    }
+            if (parent[u] != -1) {
+                mst.add(new Edge(parent[u], u, minEdgeWeight[u]));
+            }
 
-    // A utility function to print the constructed MST
-    // stored in parent[]
-    void printMST(int[] parent, int[][] graph) {
-        System.out.println("Edge \tWeight");
-        int minCost = 0;
-        for (int i = 1; i < V; i++) {
-            System.out.println(parent[i] + " - " + i + "\t"
-                    + graph[i][parent[i]]);
-            minCost += graph[i][parent[i]];
-        }
-        System.out.println("Total cost of MST: " + minCost);
-    }
+            for (Edge edge : adjList.get(u)) {
+                int v = edge.to;
+                int weight = edge.weight;
 
-    // Function to construct and print MST for a graph
-    // represented using adjacency matrix representation
-    void primMST(int[][] graph) {
-        // Array to store constructed MST
-        int[] parent = new int[V];
-
-        // Key values used to pick minimum weight edge in
-        // cut
-        int[] key = new int[V];
-
-        // To represent set of vertices included in MST
-        Boolean[] mstSet = new Boolean[V];
-
-        // Initialize all keys as INFINITE
-        for (int i = 0; i < V; i++) {
-            key[i] = Integer.MAX_VALUE;
-            mstSet[i] = false;
-        }
-
-        // Always include first 1st vertex in MST.
-        // Make key 0 so that this vertex is
-        // picked as first vertex
-        key[0] = 0;
-
-        // First node is always root of MST
-        parent[0] = -1;
-
-        // The MST will have V vertices
-        for (int count = 0; count < V - 1; count++) {
-
-            // Pick the minimum key vertex from the set of
-            // vertices not yet included in MST
-            int u = minKey(key, mstSet);
-
-            // Add the picked vertex to the MST Set
-            mstSet[u] = true;
-
-            // Update key value and parent index of the
-            // adjacent vertices of the picked vertex.
-            // Consider only those vertices which are not
-            // yet included in MST
-            for (int v = 0; v < V; v++)
-
-                // graph[u][v] is non zero only for adjacent
-                // vertices of m mstSet[v] is false for
-                // vertices not yet included in MST Update
-                // the key only if graph[u][v] is smaller
-                // than key[v]
-                if (graph[u][v] != 0 && !mstSet[v]
-                        && graph[u][v] < key[v]) {
+                if (!inMST.contains(v) && minEdgeWeight[v] > weight) {
+                    minEdgeWeight[v] = weight;
                     parent[v] = u;
-                    key[v] = graph[u][v];
+                    minHeap.add(new Vertex(v, weight));
                 }
+            }
         }
 
-        // Print the constructed MST
-        printMST(parent, graph);
     }
+
+
+    public int printMST() {
+        int totalWeight = 0;
+        for (int i = 1; i < numVertices; i++) {
+            totalWeight += minEdgeWeight[i];
+        }
+        return totalWeight;
+    }
+
+
 }
+
+
 
