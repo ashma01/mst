@@ -1,4 +1,3 @@
-
 Feature: MST Prims
 
   Background:

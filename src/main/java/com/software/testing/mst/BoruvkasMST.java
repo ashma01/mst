@@ -137,6 +137,3 @@ public class BoruvkasMST {
         return MSTweight;
     }
 }
-
-
-
