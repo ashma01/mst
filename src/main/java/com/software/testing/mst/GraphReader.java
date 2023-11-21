@@ -80,5 +80,4 @@ public class GraphReader {
         return boruvkasMST;
     }
 
-
 }

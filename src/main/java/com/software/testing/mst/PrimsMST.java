@@ -15,8 +15,17 @@ public class PrimsMST {
     private final int numVertices;
     private final Set<Integer> inMST = new HashSet<>();
 
-
     public PrimsMST(Integer numVertices) {
+        if (numVertices <= 0) {
+            // Initialize with an empty structure when no vertices are present
+            this.numVertices = 0;
+            this.adjList = Collections.emptyList();
+            this.minEdgeWeight = new int[0];
+            this.parent = new int[0];
+            this.minHeap = new PriorityQueue<>(1, Comparator.comparingInt(Vertex::getWeight));
+            return;
+        }
+
         this.numVertices = numVertices;
         this.adjList = new ArrayList<>(numVertices);
         for (int i = 0; i < numVertices; i++) {
@@ -30,12 +39,21 @@ public class PrimsMST {
     }
 
     public void addEdge(int src, int dest, int weight) {
+        // Check to avoid IndexOutOfBoundsException for empty graphs
+        if (numVertices == 0) {
+            return;
+        }
+
         adjList.get(src).add(new Edge(src, dest, weight));
         adjList.get(dest).add(new Edge(dest, src, weight)); // For undirected graph
     }
 
-
     public void getMST() {
+        // Early return if graph is empty
+        if (numVertices == 0) {
+            return;
+        }
+
         List<Edge> mst = new ArrayList<>();
 
         minEdgeWeight[0] = 0;
@@ -66,20 +84,17 @@ public class PrimsMST {
                 }
             }
         }
-
     }
 
-
     public int printMST() {
+        if (numVertices == 0) {
+            return 0;
+        }
+
         int totalWeight = 0;
         for (int i = 1; i < numVertices; i++) {
             totalWeight += minEdgeWeight[i];
         }
         return totalWeight;
     }
-
-
 }
-
-
-

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 @Data
 public class Response {
     String algo;
-    String timeTake;
+    String timeTaken;
     Integer totalWeight;
 }

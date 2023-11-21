@@ -45,7 +45,7 @@ public class MstManager {
         }
         response.setAlgo(name);
         response.setTotalWeight(totalWeight);
-        response.setTimeTake(endTimeP - startTimeP + "ms");
+        response.setTimeTaken(endTimeP - startTimeP + "ms");
 
         return response;
     }
