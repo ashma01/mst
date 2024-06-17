@@ -21,10 +21,10 @@ public class KruskalMST {
         int noOfEdges = 0;
 
         // Allocate memory for creating V subsets
-        Subset subsets[] = new Subset[numVertices];
+        Subset[] subsets = new Subset[numVertices];
 
         // Allocate memory for results
-        Edge results[] = new Edge[numVertices];
+        Edge[] results = new Edge[numVertices];
 
         // Create V subsets with single elements
         for (int i = 0; i < numVertices; i++) {
