@@ -8,12 +8,12 @@ import java.util.*;
 @Service
 @NoArgsConstructor(force = true)
 public class PrimsMST {
-    private final List<List<Edge>> adjList;
-    private final int[] minEdgeWeight;
-    private final int[] parent;
-    private final PriorityQueue<Vertex> minHeap;
-    private final int numVertices;
-    private final Set<Integer> inMST = new HashSet<>();
+    public final List<List<Edge>> adjList;
+    public final int[] minEdgeWeight;
+    public final int[] parent;
+    public final PriorityQueue<Vertex> minHeap;
+    public final int numVertices;
+    public final Set<Integer> inMST = new HashSet<>();
 
     public PrimsMST(Integer numVertices) {
         if (numVertices <= 0) {
