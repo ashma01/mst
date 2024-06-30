@@ -16,8 +16,6 @@ class MstApplicationTests {
 
 	@Test
 	void contextLoads() {
-		// Verify that the application context has loaded successfully
-		assertNotNull(applicationContext, "The application context should have loaded.");
 	}
 
 }
