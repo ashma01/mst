@@ -21,7 +21,7 @@ public class GraphReader {
             // Read the number of vertices from the first line
             int numVertices = Integer.parseInt(reader.readLine());
             primsMST = new PrimsMST(numVertices);
-            primsMST = null;
+
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split("\\s+"); // Split line by whitespace
