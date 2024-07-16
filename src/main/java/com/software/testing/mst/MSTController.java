@@ -40,8 +40,7 @@ public class MSTController {
     public Response getMinimumSpanningTree(@RequestParam(value = "filepath") String filename, @RequestParam(value = "algoName", required = false) String name) {
 
         if (filename.isEmpty() || name.isEmpty()) {
-            throw new RuntimeException("invalid input params");
-        }
+            throw new InvalidInputException("invalid input params");        }
         return mstManager.runAlgo(filename, name);
     }
 
